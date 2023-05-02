@@ -1,0 +1,26 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/vaffe/ros2_ws/install/mavros/lib/python3.9/site-packages",
+        "/home/vaffe/ros2_ws/install/mavros_msgs/lib/python3.9/site-packages",
+        "/home/vaffe/ros2_ws/install/geodesy/lib/python3.9/site-packages",
+        "/home/vaffe/ros2_ws/install/geographic_msgs/lib/python3.9/site-packages",
+        "/home/vaffe/ros2_ws/install/diagnostic_common_diagnostics/lib/python3.9/site-packages",
+        "/home/vaffe/ros2_ws/install/diagnostic_updater/lib/python3.9/site-packages",
+        "/home/vaffe/ros2_ws/install/diagnostic_aggregator/lib/python3.9/site-packages",
+        "/home/vaffe/ros2_ws/install/angles/lib/python3.9/site-packages",
+        "/ros2_ws/humble/lib/python3.9/dist-packages",
+        "/opt/ros/humble/lib/python3.9/site-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/vaffe/ros2_ws/install/mavros/lib/python3.9/site-packages",
+        "/home/vaffe/ros2_ws/install/mavros_msgs/lib/python3.9/site-packages",
+        "/home/vaffe/ros2_ws/install/geodesy/lib/python3.9/site-packages",
+        "/home/vaffe/ros2_ws/install/geographic_msgs/lib/python3.9/site-packages",
+        "/home/vaffe/ros2_ws/install/diagnostic_common_diagnostics/lib/python3.9/site-packages",
+        "/home/vaffe/ros2_ws/install/diagnostic_updater/lib/python3.9/site-packages",
+        "/home/vaffe/ros2_ws/install/diagnostic_aggregator/lib/python3.9/site-packages",
+        "/home/vaffe/ros2_ws/install/angles/lib/python3.9/site-packages",
+        "/ros2_ws/humble/lib/python3.9/dist-packages",
+        "/opt/ros/humble/lib/python3.9/site-packages"
+    ]
+}

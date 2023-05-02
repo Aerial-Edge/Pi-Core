@@ -1,0 +1,42 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/vaffe/ros2_ws/install/self_test/include/**",
+        "/home/vaffe/ros2_ws/install/pymavlink_msgs/include/**",
+        "/home/vaffe/ros2_ws/install/mavros/include/**",
+        "/home/vaffe/ros2_ws/install/mavros_msgs/include/**",
+        "/home/vaffe/ros2_ws/install/libmavconn/include/**",
+        "/home/vaffe/ros2_ws/install/geodesy/include/**",
+        "/home/vaffe/ros2_ws/install/geographic_msgs/include/**",
+        "/home/vaffe/ros2_ws/install/eigen_stl_containers/include/**",
+        "/home/vaffe/ros2_ws/install/diagnostic_updater/include/**",
+        "/home/vaffe/ros2_ws/install/diagnostic_aggregator/include/**",
+        "/home/vaffe/ros2_ws/install/angles/include/**",
+        "/opt/ros/humble/include/**",
+        "/home/vaffe/ros2_ws/src/angles/angles/include/**",
+        "/home/vaffe/ros2_ws/src/diagnostics/diagnostic_aggregator/include/**",
+        "/home/vaffe/ros2_ws/src/diagnostics/diagnostic_updater/include/**",
+        "/home/vaffe/ros2_ws/src/diagnostics/self_test/include/**",
+        "/home/vaffe/ros2_ws/src/eigen_stl_containers/include/**",
+        "/home/vaffe/ros2_ws/src/geographic_info/geodesy/include/**",
+        "/home/vaffe/ros2_ws/src/mavros/libmavconn/include/**",
+        "/home/vaffe/ros2_ws/src/mavros/mavros/include/**",
+        "/home/vaffe/ros2_ws/src/mavros/mavros_extras/include/**",
+        "/home/vaffe/ros2_ws/src/mavros/mavros_msgs/include/**",
+        "/home/vaffe/ros2_ws/src/pymavlink_msgs/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-arm64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}
