@@ -9,6 +9,7 @@ from std_msgs.msg import Float64
 from std_msgs.msg import Int32MultiArray
 from pymavlink import mavutil
 from pymavlink_msgs.msg import Attitude, DronePose
+import math
 
 
 class FollowAlgorithm(Node):
@@ -22,13 +23,51 @@ class FollowAlgorithm(Node):
         
     def qualisys_callback(self, msg: DronePose):
 
-        self.get_logger().info(f" {msg.pos}")
+        #self.get_logger().info(f" {msg.yaw}")
+
+         # Constants
+        room_width = 10  # meters
+        room_length = 10  # meters
+        room_height = 4  # meters
+
+        camera_angle = 45  # degrees
+
+        def calculate_object_position(yaw, distance):
+            # Convert yaw to radians
+            yaw_rad = math.radians(yaw)
+            # Calculate the horizontal distance from the drone to the object
+            horizontal_distance = distance * math.cos(math.radians(camera_angle))
+
+            # Calculate object position
+            object_x = horizontal_distance * math.cos(yaw_rad)
+            object_y = horizontal_distance * math.sin(yaw_rad)
+            object_z = 0  # Since the object is always on the floor
+
+            return object_x, object_y, object_z
+
+        def find_drone_position(yaw, distance_to_object):
+            # Calculate object position
+            object_x, object_y, object_z = calculate_object_position(yaw, distance_to_object)
+
+            # Calculate drone position
+            drone_x = object_x + room_width / 2
+            drone_y = object_y + room_length / 2
+            drone_z = distance_to_object * math.sin(math.radians(camera_angle))
+
+            return drone_x, drone_y, drone_z
+
+
+        # Calculate the drone's position
+        drone_x, drone_y, drone_z = find_drone_position(yaw, distance_to_object)
+        self.get_logger().info(f" {drone_x} {drone_y} {drone_z} ")
+
 
 
 
     def position_and_distance_callback(self, msg: Int32MultiArray):
 
         self.get_logger().info(f" {msg.data} ")
+       
 
     
 
