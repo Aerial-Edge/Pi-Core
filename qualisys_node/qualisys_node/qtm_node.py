@@ -117,7 +117,7 @@ class Qualisys_node(Node):
         global prev_msg #we will use the last message to calculate velocity and rotation
         global prev_vel
         full_msg=True # flag to see if we can publish the message or not.
-        self.get_logger().info(f"position: {position}, freq: {freq}, yaw: {yaw}")
+        self.get_logger().info(f"yaw: {yaw}")
 
         if (np.isnan(position).any()) or (position[0]==None) or yaw==None:
             return False,False
@@ -204,7 +204,7 @@ class Qualisys_node(Node):
         
 
         # Set a timeout for the connection attempt
-        timeout = 5  # Change this value to the desired timeout in seconds
+        timeout = 20  # Change this value to the desired timeout in seconds
         try:
             connection = await asyncio.wait_for(qtm.connect(IP_server, version='1.10'), timeout)
         except asyncio.TimeoutError:
@@ -227,7 +227,7 @@ class Qualisys_node(Node):
         # IP for listening data
         HOST = IP_server
         # Port for listening data
-        PORT = 5000
+        PORT = 22222
         server_address_udp = (HOST, PORT)
 
         # Create a UDP socket for data streaming

@@ -23,6 +23,8 @@ class FollowAlgorithm(Node):
         
     def qualisys_callback(self, msg: DronePose):
 
+        yaw = msg.yaw.data
+
         #self.get_logger().info(f" {msg.yaw}")
 
          # Constants
@@ -31,6 +33,18 @@ class FollowAlgorithm(Node):
         room_height = 4  # meters
 
         camera_angle = 45  # degrees
+
+        def radians_to_degrees(yaw_radians):
+            # Convert Float32 to Python float
+            yaw_radians_float = float(yaw_radians)
+
+            # Convert radians to degrees
+            yaw_degrees = math.degrees(yaw_radians_float)
+
+            # Normalize the angle to the range [0, 360)
+            yaw_degrees_normalized = (yaw_degrees + 360) % 360
+
+            return yaw_degrees_normalized
 
         def calculate_object_position(yaw, distance):
             # Convert yaw to radians
@@ -56,10 +70,12 @@ class FollowAlgorithm(Node):
 
             return drone_x, drone_y, drone_z
 
-
+        yaw_degree = radians_to_degrees(yaw)
+        distance_to_object = 5
         # Calculate the drone's position
         drone_x, drone_y, drone_z = find_drone_position(yaw, distance_to_object)
-        self.get_logger().info(f" {drone_x} {drone_y} {drone_z} ")
+        
+        self.get_logger().info(f" {drone_x} {drone_y} {drone_z} {yaw} ")
 
 
 
