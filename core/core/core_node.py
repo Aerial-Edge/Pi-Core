@@ -23,58 +23,39 @@ class FollowAlgorithm(Node):
         
     def qualisys_callback(self, msg: DronePose):
 
-        yaw = msg.yaw.data
-
-        #self.get_logger().info(f" {msg.yaw}")
-
-         # Constants
-        room_width = 10  # meters
-        room_length = 10  # meters
-
-        camera_angle = 45  # degrees
-
-        def radians_to_degrees(yaw_radians):
-            # Convert Float32 to Python float
-            yaw_radians_float = float(yaw_radians)
-
-            # Convert radians to degrees
-            yaw_degrees = math.degrees(yaw_radians_float)
-
-            # Normalize the angle to the range [0, 360)
-            yaw_degrees_normalized = (yaw_degrees + 360) % 360
-
-            return yaw_degrees_normalized
-
-        def calculate_object_position(yaw, distance):
-            # Convert yaw to radians
-            yaw_rad = math.radians(yaw)
-            # Calculate the horizontal distance from the drone to the object
-            horizontal_distance = distance * math.cos(math.radians(camera_angle))
-
-            # Calculate object position
-            object_x = horizontal_distance * math.cos(yaw_rad)
-            object_y = horizontal_distance * math.sin(yaw_rad)
-
-            return object_x, object_y
-
-        def find_drone_position(yaw, distance_to_object):
-            # Calculate object position
-            object_x, object_y = calculate_object_position(yaw, distance_to_object)
-
-            # Calculate drone position
-            drone_x = object_x + room_width / 2
-            drone_y = object_y + room_length / 2
-
-            return drone_x, drone_y
-
-        yaw_degree = radians_to_degrees(yaw)
-        distance_to_object = 5
-        # Calculate the drone's position
-        drone_x, drone_y = find_drone_position(yaw_degree, distance_to_object)
         
-        self.get_logger().info(f" {drone_x} {drone_y} {yaw_degree} ")
+
+        # Constants
+        object_x = 0.0  # meters
+        object_y = 0.0  # meters
+        camera_angle = 45  # degrees
+        
+        # Variables
+        yaw = msg.yaw.data # radians -pi to pi
+        true_x = msg.pos.x # x position in meters from qualisys
+        true_y = msg.pos.y # y position in meters from qualisys
+        distance_to_object = 1 # meters
 
 
+
+
+        # Calculate the drone's position
+        drone_x, drone_y = self.find_drone_position(yaw , distance_to_object, object_x, object_y, camera_angle)
+        
+        self.get_logger().info(f"Estimated position {drone_x} {drone_y} ")
+        self.get_logger().info(f"True position {true_x} {true_y} ")
+
+
+
+    def find_drone_position(self, yaw, distance_to_object, object_x, object_y, camera_angle):
+    
+        
+        # Calculate drone position
+        horizontal_distance = distance_to_object * math.cos(math.radians(camera_angle))
+        drone_x = object_x + horizontal_distance * math.cos(yaw)
+        drone_y = object_y + horizontal_distance * math.sin(yaw)
+
+        return drone_x, drone_y
 
 
     def position_and_distance_callback(self, msg: Int32MultiArray):
