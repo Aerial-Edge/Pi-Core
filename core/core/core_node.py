@@ -19,8 +19,11 @@ class FollowAlgorithm(Node):
         self.create_subscription(Int32MultiArray, 'object_pos_and_distance', self.position_and_distance_callback, 10)
         
         self.create_subscription(DronePose, 'drone_pose', self.qualisys_callback, 10)
+
+        self.distance = 0
         
-        
+
+
     def qualisys_callback(self, msg: DronePose):
 
         
@@ -34,13 +37,13 @@ class FollowAlgorithm(Node):
         yaw = msg.yaw.data # radians -pi to pi
         true_x = msg.pos.x # x position in meters from qualisys
         true_y = msg.pos.y # y position in meters from qualisys
-        distance_to_object = 1 # meters
+        distance_to_object = 1 # meters for testing 
 
 
 
 
         # Calculate the drone's position
-        drone_x, drone_y = self.find_drone_position(yaw , distance_to_object, object_x, object_y, camera_angle)
+        drone_x, drone_y = self.find_drone_position(yaw , self.distance, object_x, object_y, camera_angle)
         
         self.get_logger().info(f"Estimated position {drone_x} {drone_y} ")
         self.get_logger().info(f"True position {true_x} {true_y} ")
@@ -60,7 +63,9 @@ class FollowAlgorithm(Node):
 
     def position_and_distance_callback(self, msg: Int32MultiArray):
 
-        self.get_logger().info(f" {msg.data} ")
+        x = msg.data[0]
+        y = msg.data[1]
+        self.distance = msg.data[2]
        
 
     
