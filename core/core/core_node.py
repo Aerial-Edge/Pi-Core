@@ -30,7 +30,6 @@ class FollowAlgorithm(Node):
          # Constants
         room_width = 10  # meters
         room_length = 10  # meters
-        room_height = 4  # meters
 
         camera_angle = 45  # degrees
 
@@ -55,27 +54,25 @@ class FollowAlgorithm(Node):
             # Calculate object position
             object_x = horizontal_distance * math.cos(yaw_rad)
             object_y = horizontal_distance * math.sin(yaw_rad)
-            object_z = 0  # Since the object is always on the floor
 
-            return object_x, object_y, object_z
+            return object_x, object_y
 
         def find_drone_position(yaw, distance_to_object):
             # Calculate object position
-            object_x, object_y, object_z = calculate_object_position(yaw, distance_to_object)
+            object_x, object_y = calculate_object_position(yaw, distance_to_object)
 
             # Calculate drone position
             drone_x = object_x + room_width / 2
             drone_y = object_y + room_length / 2
-            drone_z = distance_to_object * math.sin(math.radians(camera_angle))
 
-            return drone_x, drone_y, drone_z
+            return drone_x, drone_y
 
         yaw_degree = radians_to_degrees(yaw)
         distance_to_object = 5
         # Calculate the drone's position
-        drone_x, drone_y, drone_z = find_drone_position(yaw, distance_to_object)
+        drone_x, drone_y = find_drone_position(yaw_degree, distance_to_object)
         
-        self.get_logger().info(f" {drone_x} {drone_y} {drone_z} {yaw} ")
+        self.get_logger().info(f" {drone_x} {drone_y} {yaw_degree} ")
 
 
 
