@@ -55,8 +55,8 @@ class FollowAlgorithm(Node):
         
         # Calculate drone position
         horizontal_distance = distance_to_object * math.cos(math.radians(camera_angle))
-        drone_x = object_x + horizontal_distance * math.cos(yaw)
-        drone_y = object_y + horizontal_distance * math.sin(yaw)
+        drone_x = object_x + horizontal_distance * math.sin(yaw)
+        drone_y = object_y + horizontal_distance * math.cos(yaw)
 
         return drone_x, drone_y
 
