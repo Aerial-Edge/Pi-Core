@@ -22,7 +22,11 @@ class FollowAlgorithm(Node):
     def qualisys_callback(self, msg: DronePose):
 
         
+        
 
+        # Constants
+        object_x = 0.0  # meters
+        object_y = 0.0  # meters
         # Constants
         object_x = 0.0  # meters
         object_y = 0.0  # meters
@@ -40,6 +44,8 @@ class FollowAlgorithm(Node):
         # Calculate the drone's position
         drone_x, drone_y = self.find_drone_position(yaw , distance_to_object, object_x, object_y, camera_angle)
         
+        self.get_logger().info(f"Estimated position {drone_x} {drone_y} ")
+        self.get_logger().info(f"True position {true_x} {true_y} ")
         self.get_logger().info(f"Estimated position {drone_x} {drone_y} ")
         self.get_logger().info(f"True position {true_x} {true_y} ")
 
