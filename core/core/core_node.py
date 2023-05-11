@@ -7,7 +7,9 @@ from std_msgs.msg import Int32MultiArray
 from pymavlink import mavutil
 from pymavlink_msgs.msg import DronePose
 import math
-
+import matplotlib.pyplot as plt
+from mpl_toolkits import mplot3d
+import numpy as np
 
 class FollowAlgorithm(Node):
     def __init__(self): 
@@ -17,6 +19,15 @@ class FollowAlgorithm(Node):
         
         self.create_subscription(DronePose, 'drone_pose', self.qualisys_callback, 10)
         self.distance = 0.0
+        self.fig = plt.axes(projection='3d')
+        arrsize = 1000
+        self.drone_x_arr = np.zeros(arrsize)
+        self.drone_y_arr = np.zeros(arrsize)
+        self.drone_z_arr = np.zeros(arrsize)
+        self.qualisys_x_arr = np.zeros(arrsize)
+        self.qualisys_y_arr = np.zeros(arrsize)
+        self.qualisys_z_arr = np.zeros(arrsize)
+        self.counter = 0
         
         
     def qualisys_callback(self, msg: DronePose):
@@ -51,15 +62,48 @@ class FollowAlgorithm(Node):
 
 
 
-    def find_drone_position(self, yaw, distance_to_object, object_x, object_y, camera_angle):
+    def find_drone_position(self, yaw, distance_to_object, object_x, object_y, object_z, camera_angle):
     
         
         # Calculate drone position
         horizontal_distance = distance_to_object * math.cos(math.radians(camera_angle))
+        altitude = distance_to_object * math.sin(math.radians(camera_angle))
         drone_x = object_x + horizontal_distance * math.cos(yaw)
         drone_y = object_y + horizontal_distance * math.sin(yaw)
+        drone_z = altitude
 
-        return drone_x, drone_y
+        return drone_x, drone_y, drone_z
+
+    def plotter(self, drone_pos, qualisys_pos):
+
+
+        if (self.counter < len(self.drone_x_arr)):
+            # Scatter plots
+            x_drone = drone_pos[0]
+            y_drone = np.cos(drone_pos[1])
+            z_drone = drone_pos[2]
+            x_qualisys = qualisys_pos[0]
+            y_qualisys = np_cos(qualisys_pos[1])
+            z_qualisys = qualisys_pos[2]
+            ndx = self.counter
+            self.counter += 1
+
+            self.drone_x_arr[ndx] = x_drone
+            self.drone_y_arr[ndx] = y_drone
+            self.drone_z_arr[ndx] = z_drone
+            self.qualisys_x_arr[ndx] = x_qualisys
+            self.qualisys_y_arr[ndx] = y_qualisys
+            self.qualisys_z_arr[ndx] = z_qualisys
+            self.fig.scatter3D(x_drone, y_drone, z_drone, c=z_drone, cmap='Greens');
+            self.fig.scatter3D(x_qualisys, y_qualisys, z_qualisys, c=z_qualisys, cmap='Blues');
+        else:
+            self.save_plot()
+
+    def save_plot(self):
+        fig = plt.axes(projection='3d')
+        fig.scatter3D(self.drone_x_arr, self.drone_y_arr, self.drone_z_arr, c=self.qualisys_z_arr, cmap='Greens');
+        fig.scatter3D(self.qualisys_x_arr, self.qualisys_y_arr, self.qualisys_z_arr, c=self.qualisys_z_arr, cmap='Blues');
+        plt.savefig("/home/ros/log/plot.png")
 
 
     def position_and_distance_callback(self, msg: Int32MultiArray):
