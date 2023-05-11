@@ -47,19 +47,19 @@ class FollowAlgorithm(Node):
         yaw = msg.yaw.data # radians -pi to pi
         true_x = msg.pos.x # x position in meters from qualisys
         true_y = msg.pos.y # y position in meters from qualisys
+        true_z = msg.pos.z
         distance_to_object = self.distance# meters
 
 
-
-
         # Calculate the drone's position
-        drone_x, drone_y = self.find_drone_position(yaw , distance_to_object, object_x, object_y, camera_angle)
+        drone_x, drone_y, drone_z = self.find_drone_position(yaw , distance_to_object, object_x, object_y, camera_angle)
         
         self.get_logger().info(f"Estimated position {drone_x} {drone_y} ")
         self.get_logger().info(f"True position {true_x} {true_y} ")
         self.get_logger().info(f"Estimated position {drone_x} {drone_y} ")
         self.get_logger().info(f"True position {true_x} {true_y} ")
 
+        self.plotter((drone_x, drone_y, drone_z), (true_x, true_y, true_z))
 
 
     def find_drone_position(self, yaw, distance_to_object, object_x, object_y, object_z, camera_angle):
@@ -68,9 +68,12 @@ class FollowAlgorithm(Node):
         # Calculate drone position
         horizontal_distance = distance_to_object * math.cos(math.radians(camera_angle))
         altitude = distance_to_object * math.sin(math.radians(camera_angle))
-        drone_x = object_x + horizontal_distance * math.cos(yaw)
-        drone_y = object_y + horizontal_distance * math.sin(yaw)
-        drone_z = altitude
+        #drone_x = object_x + horizontal_distance * math.cos(yaw)
+        #drone_y = object_y + horizontal_distance * math.sin(yaw)
+        drone_x = object_x + distance_to_object * math.cos(yaw)
+        drone_y = object_y + distance_to_object * math.sin(yaw)
+
+        drone_z = 0
 
         return drone_x, drone_y, drone_z
 
