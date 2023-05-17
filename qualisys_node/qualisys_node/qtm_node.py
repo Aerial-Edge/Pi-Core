@@ -7,7 +7,7 @@ import xml.etree.ElementTree as ET
 import qtm
 import numpy as np
 from pymavlink_msgs.msg import DronePose
-from .utils.util import angle_diff, calculate_yaw
+from .util import angle_diff, calculate_yaw
 import sys
 
 ###GLOBAL VARIABLES###
