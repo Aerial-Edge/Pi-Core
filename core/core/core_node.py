@@ -54,6 +54,7 @@ class FollowAlgorithm(Node):
         true_x = msg.pos.x # x position in meters from qualisys
         true_y = msg.pos.y # y position in meters from qualisys
         true_z = msg.pos.z
+        true_z = msg.pos.z
         distance_to_object = self.distance# meters
 
 
@@ -73,8 +74,10 @@ class FollowAlgorithm(Node):
 
         self.plotter((drone_x, drone_y, drone_z), (true_x, true_y, true_z))
 
+        self.plotter((drone_x, drone_y, drone_z), (true_x, true_y, true_z))
 
 
+    def find_drone_position(self, yaw, distance_to_object, object_x, object_y, object_z, camera_angle):
     def find_drone_position(self, yaw, distance_to_object, object_x, object_y, object_z, camera_angle):
     
         
